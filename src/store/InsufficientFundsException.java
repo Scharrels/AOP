@@ -1,5 +1,6 @@
 package store;
 
+
 public class InsufficientFundsException extends Exception {
 
 	/**

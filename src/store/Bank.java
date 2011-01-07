@@ -1,12 +1,10 @@
 package store;
-
 import java.util.HashMap;
 import java.util.Map;
 
 public class Bank {
 	
 	private Map<Customer, Double> accounts;
-	
 	public Bank(){
 		accounts = new HashMap<Customer, Double>();
 	}

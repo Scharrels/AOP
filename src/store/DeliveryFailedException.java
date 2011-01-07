@@ -1,5 +1,6 @@
 package store;
 
+
 public class DeliveryFailedException extends Exception {
 
 	/**

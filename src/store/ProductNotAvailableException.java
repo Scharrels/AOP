@@ -1,5 +1,6 @@
 package store;
 
+
 public class ProductNotAvailableException extends Exception {
 	/**
 	 * 

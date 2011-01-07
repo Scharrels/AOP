@@ -1,5 +1,6 @@
 package store;
 
+
 public class StoreTest {
 	private static Bank bank;
 	private static Store store;

@@ -6,6 +6,7 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.Set;
 
+@ApplyTransaction
 public class Store {
 	Map<Product, Integer> stock;
 	private Bank bank;

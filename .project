@@ -6,12 +6,13 @@
 	</projects>
 	<buildSpec>
 		<buildCommand>
-			<name>org.eclipse.jdt.core.javabuilder</name>
+			<name>composestar.java.builder</name>
 			<arguments>
 			</arguments>
 		</buildCommand>
 	</buildSpec>
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
+		<nature>composestar.java.nature</nature>
 	</natures>
 </projectDescription>
