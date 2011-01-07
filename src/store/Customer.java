@@ -6,9 +6,11 @@ import java.util.List;
 public class Customer {
 	private String name;
 	private List<Product> basket;
+	private String address;
 	
 	public Customer(String name){
 		this.name = name;
+		this.address = null;
 		this.basket = new ArrayList<Product>();
 	}
 	
@@ -40,5 +42,19 @@ public class Customer {
 	 */
 	public String getName() {
 		return name;
+	}
+
+	/**
+	 * @param address the address to set
+	 */
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	/**
+	 * @return the address
+	 */
+	public String getAddress() {
+		return address;
 	}
 }

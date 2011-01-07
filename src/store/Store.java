@@ -9,9 +9,11 @@ import java.util.Set;
 public class Store {
 	Map<Product, Integer> stock;
 	private Bank bank;
+	private DeliveryService deliveryService;
 	
-	public Store(Bank bank){
+	public Store(Bank bank, DeliveryService service){
 		this.bank = bank;
+		this.deliveryService = service;
 		stock = new HashMap<Product, Integer>();
 	}
 	
@@ -70,12 +72,17 @@ public class Store {
 		return price;
 	}
 	
-	public void checkout(Customer customer) throws PaymentFailedException, ProductNotAvailableException {
+	public void checkout(Customer customer) throws PaymentFailedException, ProductNotAvailableException, DeliveryFailedException {
 		List<Product> products = customer.getBasket();
 		removeStock(products);
 		try {
 			bank.supplyPayment(customer, getPrice(products));
+			deliveryService.deliver(customer);
 		} catch(PaymentFailedException e){
+			addStock(products);
+			throw e;
+		} catch (DeliveryFailedException e) {
+			bank.deposit(customer, getPrice(products));
 			addStock(products);
 			throw e;
 		}
