@@ -21,7 +21,7 @@ public class StoreTest {
 		// create the store
 		store = new Store(bank);
 		
-		// add some products to the store 
+		// create some products
 		product1 = new Product("Harry Potter and the Failed Payments", 4.99);
 		product2 = new Product("Lord of the Rings: The two customers", 9.99);
 		
