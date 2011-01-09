@@ -26,6 +26,7 @@ public class Store {
 		return stock.keySet();
 	}
 	
+	@Rollback
 	public void addStock(Product product, int amount){
 		if(!stock.containsKey(product)){
 			stock.put(product, amount);
@@ -34,6 +35,7 @@ public class Store {
 		}
 	}
 	
+	@Rollback
 	public void addStock(List<Product> products){
 		for(Product product : products){
 			addStock(product, 1);
@@ -44,6 +46,7 @@ public class Store {
 		return stock.get(product);
 	}
 	
+	@Rollback
 	public void removeStock(Product product, int amount) throws ProductNotAvailableException {
 		if(stock.get(product) < amount)
 			throw new ProductNotAvailableException();
