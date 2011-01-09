@@ -11,6 +11,6 @@ public class TransactionManagement
 	
 		public void startTransaction(ReifiedMessage message)
 		{
-			System.out.println("w00t");
+			System.out.println(message.getSelector());
 		}
 }

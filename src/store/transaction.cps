@@ -11,7 +11,7 @@ concern Transaction
   superimposition
   {
     selectors
-    	transactionSelector = { C | isClassWithName(C, 'store.Store') };
+    	transactionSelector = { C | classHasAnnotationWithName(C, 'store.ApplyTransaction') };
 
     filtermodules
       transactionSelector <- transaction_advice;
