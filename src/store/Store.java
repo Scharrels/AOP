@@ -6,6 +6,10 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.Set;
 
+import transaction.ApplyTransaction;
+import transaction.Rollback;
+import transaction.Transaction;
+
 @ApplyTransaction
 public class Store {
 	Map<Product, Integer> stock;
@@ -46,6 +50,7 @@ public class Store {
 		stock.put(product, stock.get(product) - amount);
 	}
 	
+	@Rollback(reverse = "addStock")
 	private void removeStock(List<Product> products) throws ProductNotAvailableException{
 		ListIterator<Product> productIterator = products.listIterator();
 		try {
@@ -73,6 +78,7 @@ public class Store {
 		return price;
 	}
 	
+	@Transaction
 	public void checkout(Customer customer) throws PaymentFailedException, ProductNotAvailableException, DeliveryFailedException {
 		List<Product> products = customer.getBasket();
 		removeStock(products);

@@ -1,9 +1,9 @@
-concern Transaction
+concern Transaction in transaction
 {
   filtermodule transaction_advice
   {
     internals
-      transaction : transaction.TransactionManagement;
+      transaction : TransactionManagement;
     inputfilters
       meta : Meta = { [*.*] transaction.startTransaction }
   }
@@ -11,7 +11,7 @@ concern Transaction
   superimposition
   {
     selectors
-    	transactionSelector = { C | classHasAnnotationWithName(C, 'store.ApplyTransaction') };
+    	transactionSelector = { C | classHasAnnotationWithName(C, 'transaction.ApplyTransaction') };
 
     filtermodules
       transactionSelector <- transaction_advice;
