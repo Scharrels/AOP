@@ -3,7 +3,7 @@ concern Transaction in transaction
   filtermodule transaction_advice
   {
     internals
-      transaction : TransactionManagement;
+      transaction : transaction.TransactionManagement;
     inputfilters
       meta : Meta = { [*.*] transaction.startTransaction }
   }

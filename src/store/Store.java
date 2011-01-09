@@ -50,7 +50,7 @@ public class Store {
 		stock.put(product, stock.get(product) - amount);
 	}
 	
-	@Rollback(reverse = "addStock")
+	@Rollback
 	private void removeStock(List<Product> products) throws ProductNotAvailableException{
 		ListIterator<Product> productIterator = products.listIterator();
 		try {
