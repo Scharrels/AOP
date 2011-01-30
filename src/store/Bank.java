@@ -2,6 +2,8 @@ package store;
 import java.util.HashMap;
 import java.util.Map;
 
+import transaction.Rollback;
+
 public class Bank {
 	
 	private Map<Customer, Double> accounts;
@@ -13,20 +15,21 @@ public class Bank {
 		accounts.put(customer, initial);
 	}
 	
-	public void withdraw(Customer customer, double amount) throws InsufficientFundsException{
+	public void withdraw(Customer customer, Double amount) throws InsufficientFundsException{
 		if(amount > accounts.get(customer))
 			throw new InsufficientFundsException();
 		accounts.put(customer, accounts.get(customer) - amount);
 	}
 	
-	public void deposit(Customer customer, double amount) {
+	public void deposit(Customer customer, Double amount) {
 		if(accounts.get(customer) == null)
 			addCustomer(customer, amount);
 		else 
 			accounts.put(customer, accounts.get(customer) + amount);
 	}
 
-	public void supplyPayment(Customer customer, double price) throws PaymentFailedException {
+	@Rollback(reverseMethod="deposit")
+	public void supplyPayment(Customer customer, Double price) throws PaymentFailedException {
 		if(accounts.get(customer) == null)
 			throw new PaymentFailedException();
 		try {

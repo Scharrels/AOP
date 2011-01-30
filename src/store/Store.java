@@ -34,7 +34,6 @@ public class Store {
 		}
 	}
 	
-	@Rollback(reverseMethod = "removeStock")
 	public void addStock(ArrayList<Product> products){
 		for(Product product : products){
 			addStock(product, 1);
@@ -52,23 +51,12 @@ public class Store {
 		stock.put(product, stock.get(product) - amount);
 	}
 	
-	@Rollback(reverseMethod = "addStock")
 	public void removeStock(ArrayList<Product> products) throws ProductNotAvailableException{
 		ListIterator<Product> productIterator = products.listIterator();
-		try {
-			// remove all products from the stock
-			while(productIterator.hasNext()){
-				Product product = productIterator.next();
-				removeStock(product, 1);
-			}
-		} catch(ProductNotAvailableException e){
-			productIterator.previous();
-			// add the already removed products back to the stock
-			while(productIterator.hasPrevious()){
-				Product product = productIterator.previous();
-				addStock(product,1);
-			}
-			throw e;
+		// remove all products from the stock
+		while(productIterator.hasNext()){
+			Product product = productIterator.next();
+			removeStock(product, 1);
 		}
 	}
 	
@@ -84,16 +72,7 @@ public class Store {
 	public void checkout(Customer customer) throws PaymentFailedException, ProductNotAvailableException, DeliveryFailedException {
 		ArrayList<Product> products = customer.getBasket();
 		removeStock(products);
-		try {
-			bank.supplyPayment(customer, getPrice(products));
-			deliveryService.deliver(customer);
-		} catch(PaymentFailedException e){
-			addStock(products);
-			throw e;
-		} catch (DeliveryFailedException e) {
-			bank.deposit(customer, getPrice(products));
-			addStock(products);
-			throw e;
-		}
+		bank.supplyPayment(customer, getPrice(products));
+		deliveryService.deliver(customer);
 	}
 }
