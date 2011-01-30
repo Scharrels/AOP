@@ -1,6 +1,6 @@
 package store;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import transaction.Rollback;
 
@@ -8,8 +8,22 @@ public class Bank {
 	
 	private Map<Customer, Double> accounts;
 	public Bank(){
-		accounts = new HashMap<Customer, Double>();
+		accounts = new ConcurrentHashMap<Customer, Double>();
 	}
+	
+	/**
+	 * Returns the reverse method of a certain method
+	 * Needed for composestar
+	 * @param name
+	 * @return the name of the reverse method
+	 */
+	public String getReverseName(String name){
+		if(name.equals("supplyPayment")){
+			return "deposit";
+		} else {
+			return null;
+		}
+	}	
 	
 	public void addCustomer(Customer customer, double initial){
 		accounts.put(customer, initial);
@@ -22,10 +36,13 @@ public class Bank {
 	}
 	
 	public void deposit(Customer customer, Double amount) {
+		System.out.println("Performing deposit of " + amount + " for " + customer.getName());
 		if(accounts.get(customer) == null)
 			addCustomer(customer, amount);
 		else 
 			accounts.put(customer, accounts.get(customer) + amount);
+		
+		System.out.println("Money for " + customer.getName() + ": " + accounts.get(customer));
 	}
 
 	@Rollback

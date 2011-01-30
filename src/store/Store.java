@@ -20,6 +20,22 @@ public class Store {
 		stock = new HashMap<Product, Integer>();
 	}
 	
+	/**
+	 * Returns the reverse method of a certain method
+	 * Needed for composestar
+	 * @param name
+	 * @return the name of the reverse method
+	 */
+	public String getReverseName(String name){
+		if(name.equals("addStock")){
+			return "removeStock";
+		} else if (name.equals("removeStock")){
+			return "addStock";
+		} else {
+			return null;
+		}
+	}
+	
 	public Set<Product> getAllProducts(){
 		return stock.keySet();
 	}

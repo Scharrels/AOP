@@ -5,14 +5,8 @@ concern TransactionControl in transaction
     externals
       transaction: transaction.Transaction = transaction.TransactionManagement.getInstance();
     inputfilters
-       start : Before = (selector == ??transactions) { 
-         filter.target = transaction;
-         filter.selector = "startTransaction"; 
-       };
-       commit : After = (selector == ??transactions) { 
-         filter.target = transaction;
-         filter.selector = "commitTransaction"; 
-       }
+       meta : Meta = { [*.??transactions] transaction.handleTransaction };
+       exception : Dispatch = { [*.??transactions] dispatchException }
   }
   
   filtermodule rollback_advice(??rollbackactions)
