@@ -1,21 +1,28 @@
 package transaction;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
+
 
 import Composestar.Java.FLIRT.Env.ReifiedMessage;
 
 public class TransactionManagement
 	{
 		public Stack<List<ReifiedMessage>> actions;
+		public static TransactionManagement tm = null;
 		
 	    public TransactionManagement()
 		{
 			actions = new Stack<List<ReifiedMessage>>();
 		}
+	    
+	    public static TransactionManagement getInstance(){
+	    	if(tm == null){
+	    		tm = new TransactionManagement();
+	    	}
+	    	return tm;
+	    }
 	
 	    /**
 	     * Starts the transaction. 
@@ -27,6 +34,7 @@ public class TransactionManagement
 	     */
 		public void startTransaction(ReifiedMessage message)
 		{
+			System.out.println("Transaction started");
 			actions.push(new ArrayList<ReifiedMessage>());
 		}
 		
@@ -36,6 +44,7 @@ public class TransactionManagement
 		 * successfully completed.
 		 */
 		public void commitTransaction(){
+			System.out.println("Transaction ended");
 			actions.pop();
 		}
 		
@@ -47,35 +56,37 @@ public class TransactionManagement
 		 * @param message
 		 */
 		public void rollBack(ReifiedMessage rollbackMessage){
-			for(ReifiedMessage m : actions.peek()){
-				Class<? extends ReifiedMessage> methodClass = m.getClass();
-				ApplyTransaction transactionAnnotation = methodClass.getAnnotation(ApplyTransaction.class);
-				String reverseMethodName = transactionAnnotation.reverseMethod();
-				Class<?>[] parameterTypes = new Class<?>[m.getArguments().length];
-				for(int i = 0; i < m.getArguments().length; i++){
-					parameterTypes[i] = m.getArgument(i).getClass();
-				}
-				try {
-					Method method = methodClass.getMethod(reverseMethodName, parameterTypes);
-					method.invoke(m.getTarget(), m.getArguments());
-				} catch (SecurityException e) { // TODO: better error handling
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (NoSuchMethodException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IllegalArgumentException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IllegalAccessException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (InvocationTargetException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-			actions.pop();
+			System.out.println("Rollback triggered");
+//			for(ReifiedMessage m : actions.peek()){
+//				Class<?> methodClass = m.getTarget().getClass();
+//				System.out.println(methodClass);
+////				Class<?>[] parameterTypes = new Class<?>[m.getArguments().length];
+////				for(int i = 0; i < m.getArguments().length; i++){
+////					parameterTypes[i] = m.getArgument(i).getClass();
+////				}
+//				Transaction transactionAnnotation = methodClass.getAnnotation(Transaction.class);
+//				String reverseMethodName = "frop";
+////				try {
+////					Method method = methodClass.getMethod(reverseMethodName, parameterTypes);
+////					method.invoke(m.getTarget(), m.getArguments());
+////				} catch (SecurityException e) { // TODO: better error handling
+////					// TODO Auto-generated catch block
+////					e.printStackTrace();
+////				} catch (NoSuchMethodException e) {
+////					// TODO Auto-generated catch block
+////					e.printStackTrace();
+////				} catch (IllegalArgumentException e) {
+////					// TODO Auto-generated catch block
+////					e.printStackTrace();
+////				} catch (IllegalAccessException e) {
+////					// TODO Auto-generated catch block
+////					e.printStackTrace();
+////				} catch (InvocationTargetException e) {
+////					// TODO Auto-generated catch block
+////					e.printStackTrace();
+////				}
+//			}
+//			actions.pop();
 		}
 		
 		/**
@@ -83,6 +94,9 @@ public class TransactionManagement
 		 * @param message
 		 */
 		public void addAction(ReifiedMessage message){
-			actions.peek().add(message);
+			if(!actions.isEmpty()){
+				System.out.println("Rollbackaction added.");
+				actions.peek().add(message);
+			}
 		}
 }
