@@ -6,12 +6,12 @@ import transaction.Rollback;
 
 public class Bank {
 	
-	public Map<Customer, Double> accounts;
+	private Map<Customer, Double> accounts;
 	public Bank(){
 		accounts = new HashMap<Customer, Double>();
 	}
 	
-	public void addCustomer(Customer customer, Double initial){
+	public void addCustomer(Customer customer, double initial){
 		accounts.put(customer, initial);
 	}
 	
@@ -30,7 +30,6 @@ public class Bank {
 
 	@Rollback
 	public void supplyPayment(Customer customer, Double price) throws PaymentFailedException {
-		System.out.println("a message in supplyPayment");
 		if(accounts.get(customer) == null)
 			throw new PaymentFailedException();
 		try {
@@ -40,7 +39,7 @@ public class Bank {
 		}
 	}
 
-	public Double getBalance(Customer customer) {
+	public double getBalance(Customer customer) {
 		return accounts.get(customer);
 	}
 

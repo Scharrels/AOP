@@ -16,8 +16,8 @@ public class StoreTest {
 		Customer customer2 = new Customer("Jill");
 		
 		// add a bank account for the customers		
-		bank.addCustomer(customer1, new Double(5.00));
-		bank.addCustomer(customer2, new Double(15.00));
+		bank.addCustomer(customer1, 5.00);
+		bank.addCustomer(customer2, 15.00);
 		
 		// create delivery service
 		DeliveryService service = new DeliveryService();
@@ -26,12 +26,12 @@ public class StoreTest {
 		store = new Store(bank, service);
 		
 		// create some products
-		product1 = new Product("Harry Potter and the Failed Payments", new Double(4.99));
-		product2 = new Product("Lord of the Rings: The two customers", new Double(9.99));
+		product1 = new Product("Harry Potter and the Failed Payments", 4.99);
+		product2 = new Product("Lord of the Rings: The two customers", 9.99);
 		
 		// add the products to the store
-		store.addStock(product1, new Integer(1));
-		store.addStock(product2, new Integer(2));
+		store.addStock(product1, 1);
+		store.addStock(product2, 2);
 		
 		System.out.println("Test: checkout with sufficient stock (2,1) and sufficient funds and known address");
 		customer1.setAddress("Calslaan");

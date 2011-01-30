@@ -2,11 +2,10 @@ package store;
 
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Customer {
 	private String name;
-	private List<Product> basket;
+	private ArrayList<Product> basket;
 	private String address;
 	
 	public Customer(String name){
@@ -23,7 +22,7 @@ public class Customer {
 		basket.remove(product);
 	}
 	
-	public List<Product> getBasket(){
+	public ArrayList<Product> getBasket(){
 		return basket;
 	}
 	

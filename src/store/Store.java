@@ -1,7 +1,7 @@
 package store;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 import java.util.Set;
@@ -33,7 +33,7 @@ public class Store {
 		}
 	}
 	
-	public void addStock(List<Product> products){
+	public void addStock(ArrayList<Product> products){
 		for(Product product : products){
 			addStock(product, 1);
 		}
@@ -50,15 +50,16 @@ public class Store {
 		stock.put(product, stock.get(product) - amount);
 	}
 	
-	private void removeStock(List<Product> products) throws ProductNotAvailableException{
+	public void removeStock(ArrayList<Product> products) throws ProductNotAvailableException{
 		ListIterator<Product> productIterator = products.listIterator();
+		// remove all products from the stock
 		while(productIterator.hasNext()){
 			Product product = productIterator.next();
 			removeStock(product, 1);
 		}
 	}
 	
-	private Double getPrice(List<Product> products){
+	public Double getPrice(ArrayList<Product> products){
 		Double price = 0.0;
 		for(Product product : products){
 			price += product.getPrice();
@@ -68,12 +69,9 @@ public class Store {
 	
 	@Transaction
 	public void checkout(Customer customer) throws PaymentFailedException, ProductNotAvailableException, DeliveryFailedException {
-		List<Product> products = customer.getBasket();
+		ArrayList<Product> products = customer.getBasket();
 		removeStock(products);
-		System.out.println("Before supplyPayment");
-		Double price = getPrice(products);
-		bank.supplyPayment(customer, price);
-		System.out.println("After supplyPayment");
+		bank.supplyPayment(customer, getPrice(products));
 		deliveryService.deliver(customer);
 	}
 }

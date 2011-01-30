@@ -3,7 +3,7 @@ package store;
 
 public class Product {
 	private String name;
-	private Double price;
+	private double price;
 	
 	public Product(String name, double price){
 		setName(name);
@@ -27,14 +27,14 @@ public class Product {
 	/**
 	 * @param price the price to set
 	 */
-	public void setPrice(Double price) {
+	public void setPrice(double price) {
 		this.price = price;
 	}
 
 	/**
 	 * @return the price
 	 */
-	public Double getPrice() {
+	public double getPrice() {
 		return price;
 	}
 	

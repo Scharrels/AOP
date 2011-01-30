@@ -5,16 +5,16 @@ import java.util.List;
 import java.util.Stack;
 
 
-import Composestar.Java.FLIRT.Env.ReifiedMessage;
+import Composestar.Java.FLIRT.Env.JoinPointContext;
 
 public class TransactionManagement
 	{
-		public Stack<List<ReifiedMessage>> actions;
+		public Stack<List<JoinPointContext>> actions;
 		public static TransactionManagement tm = null;
 		
 	    public TransactionManagement()
 		{
-			actions = new Stack<List<ReifiedMessage>>();
+			actions = new Stack<List<JoinPointContext>>();
 		}
 	    
 	    public static TransactionManagement getInstance(){
@@ -32,10 +32,10 @@ public class TransactionManagement
 	     * transaction ends or an inner transaction starts.
 	     * @param message
 	     */
-		public void startTransaction(ReifiedMessage message)
+		public void startTransaction(JoinPointContext context)
 		{
 			System.out.println("Transaction started");
-			actions.push(new ArrayList<ReifiedMessage>());
+			actions.push(new ArrayList<JoinPointContext>());
 		}
 		
 		/**
@@ -43,7 +43,7 @@ public class TransactionManagement
 		 * This will remove this transaction from the stack and considers it
 		 * successfully completed.
 		 */
-		public void commitTransaction(){
+		public void commitTransaction(JoinPointContext context){
 			System.out.println("Transaction ended");
 			actions.pop();
 		}
@@ -55,7 +55,7 @@ public class TransactionManagement
 		 * The intercepted exception thrown by the message will be rethrown.
 		 * @param message
 		 */
-		public void rollBack(ReifiedMessage rollbackMessage){
+		public void rollBack(JoinPointContext context){
 			System.out.println("Rollback triggered");
 //			for(ReifiedMessage m : actions.peek()){
 //				Class<?> methodClass = m.getTarget().getClass();
@@ -93,10 +93,10 @@ public class TransactionManagement
 		 * Adds an action to the transaction stack
 		 * @param message
 		 */
-		public void addAction(ReifiedMessage message){
+		public void addAction(JoinPointContext context){
 			if(!actions.isEmpty()){
 				System.out.println("Rollbackaction added.");
-				actions.peek().add(message);
+				actions.peek().add(context);
 			}
 		}
 }
