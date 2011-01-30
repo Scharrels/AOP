@@ -1,0 +1,6 @@
+#Sun Jan 30 19:06:47 CET 2011
+FLIRT.threaded=false
+SECRET.mode=Redundant
+buildDebugLevel=WARN
+eclipse.preferences.version=1
+runDebugLevel=0
